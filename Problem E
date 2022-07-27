@@ -1,0 +1,28 @@
+# Python 3.
+# By Bao Tran
+# ---------------------------------------------------------------
+numSet = int(input())
+N, X, Y = [], [], []
+for q in range(numSet):
+    N.append(int(input())), X.append(input()), Y.append(input())
+
+def process(n, lineX, lineY):
+    liX, liY = lineX.split(), lineY.split()
+    for i in range(n):
+        liX[i], liY[i] = int(liX[i]), int(liY[i])
+
+    increment, largest = 0, None
+    for i in range(n):
+        for j in range(n-1, i-1+increment, -1):
+            if liY[j] >= liX[i] and (largest is None or j-i > largest):
+                largest = j-i
+                increment = j-i
+
+    if largest is None:
+        largest = 0
+
+    print("The maximum distance is {}".format(largest))
+
+for q in range(numSet):
+    process(N[q], X[q], Y[q])
+    print("")
