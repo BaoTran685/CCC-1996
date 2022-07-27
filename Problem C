@@ -1,0 +1,30 @@
+# Python 3.
+# By Bao Tran
+# ---------------------------------------
+num = int(input())
+li = []
+for q in range(num):
+    inp = input().split()
+    li.append((int(inp[0]), int(inp[1])))
+
+def process(n, k, number):
+    if len(number) == n:
+        return [number]
+
+    after = []
+    for i in ["0", "1"]:
+        if i == "1":
+            if number.count(i) < k:
+                re = process(n, k, number+i)
+                after = [*re, *after]
+        elif i == "0":
+            if number.count(i) < n-k:
+                re = process(n, k, number+i)
+                after = [*re, *after]
+
+    return after
+    
+for g in range(num):
+    print("The bit patterns are")
+    print(*process(*li[g], ""), sep="\n")
+    print("")
