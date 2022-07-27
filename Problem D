@@ -1,0 +1,76 @@
+# Python 3.
+# By Bao Tran
+# ------------------------------
+n = int(input())
+li = [input() for q in range(n)]
+
+myDic = {"I": 1,
+         "V": 5,
+         "X": 10,
+         "L": 50,
+         "C": 100,
+         "D": 500,
+         "M": 1000
+         }
+myDic_re = {}
+for x, y in myDic.items():
+    myDic_re[y] = x
+
+def process(line):
+    lis = line.split("+")
+    lis[-1] = lis[-1][:-1]
+    s = 0
+
+    for char in lis:
+        for subChar in char:
+            s += myDic[subChar]
+        for i in range(1, len(char)):
+            if myDic[char[i]] > myDic[char[i-1]]:
+                s -= myDic[char[i-1]]*2
+
+    if s > 1000:
+        s = "CONCORDIA CUM VERITATE"
+    else:
+        re, after = [], []
+        for i in range(len(str(s))-1, -1, -1):
+            re.append((s//10**i)*10**i)
+            s %= 10**i
+
+        for number in re:
+            if number in myDic_re:
+                after.append(myDic_re[number])
+            else:
+                if number in [9*10**i for i in range(3)]:
+                    new = 10**len(str(number))
+                    after.append(myDic_re[new//10]+myDic_re[new])
+                elif number in [4*10**i for i in range(3)]:
+                    new = 5*10**(len(str(number))-1)
+                    after.append(myDic_re[new//5]+myDic_re[new])
+                else:
+                    if len(str(number)) == 1:
+                        if number < 5:
+                            new = number
+                            after.append("I" * new)
+                        else:
+                            new = number - 5
+                            after.append(myDic_re[5] + "I" * new)
+                    elif len(str(number)) == 2:
+                        if number < 50:
+                            new = number//10
+                            after.append("X"*new)
+                        else:
+                            new = (number-50)//10
+                            after.append(myDic_re[50]+"X"*new)
+                    elif len(str(number)) == 3:
+                        if number < 500:
+                            new = number//100
+                            after.append("C"*new)
+                        else:
+                            new = (number-500)//100
+                            after.append(myDic_re[500]+"C"*new)
+            s = "".join(after)
+    print("+".join(lis)+"={}".format(s))
+
+for q in range(n):
+    process(li[q])
+    print("")
