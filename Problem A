@@ -16,3 +16,6 @@ def process(num):
         typ = "abundant"
     else: typ = "deficient"
     print(f"{num} is a {typ} number")
+    
+for i in range(n):
+    process(N[i])
